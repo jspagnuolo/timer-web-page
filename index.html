@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        input, button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    <input type="number" id="time_sec" placeholder="Enter the time in seconds">
+    <input type="number" id="repeat" placeholder="Enter the number of times the timer should repeat">
+    <button onclick="startTimer()">Start Timer</button>
+    <div id="timer_output"></div>
+
+    <script>
+        function countdownTimer(time_sec, repeat) {
+            let i = 0;
+            let j = time_sec;
+            
+            const timer = setInterval(function () {
+                document.getElementById('timer_output').innerHTML = "Time remaining: " + j + " seconds";
+
+                if (j === 1) {
+                    i++;
+                    if (i === repeat) {
+                        clearInterval(timer);
+                        document.getElementById('timer_output').innerHTML = "Timer completed for iteration: " + i;
+                    } else {
+                        j = time_sec + 1;
+                    }
+                    // You can add a sound here using the Audio API
+                }
+
+                j--;
+            }, 1000);
+        }
+
+        function startTimer() {
+            const time_sec = parseInt(document.getElementById('time_sec').value);
+            const repeat = parseInt(document.getElementById('repeat').value);
+
+            countdownTimer(time_sec, repeat);
+        }
+    </script>
+</body>
+</html>
