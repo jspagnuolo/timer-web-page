@@ -11,35 +11,45 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            background-color: #f2f2f2;
+            background-color: #000;
+            color: #fff;
+            letter-spacing:1px;
         }
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            margin-top:100px;
+            text-align:center;
         }
         label {
             font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: .5rem;
         }
         input {
-            font-size: 1.5rem;
-            width: 100%;
+            font-size: 2.5rem;
+            width: 50%;
             padding: 0.5rem;
             margin: 0.5rem 0;
             box-sizing: border-box;
+            border-radius: 60px;
+            text-align: center;
         }
         button {
             font-size: 1.5rem;
-            padding: 0.5rem 1rem;
+            padding: 1.5rem 2rem;
             margin-top: 1rem;
             cursor: pointer;
             border: none;
             background-color: #4CAF50;
             color: white;
-            border-radius: 5px;
+            border-radius: 60px;
+            text-transform:uppercase;
+            font-weight: bold;
         }
         button:hover {
             background-color: #45a049;
@@ -60,13 +70,13 @@
 </head>
 <body>
     <h1>Countdown Timer</h1>
-    <label for="time_sec">Enter the time in seconds:</label>
+    <label for="time_sec">Time in Seconds:</label>
     <input type="number" id="time_sec" name="time_sec" min="1">
     <br>
-    <label for="repeat">Enter the number of times the timer should repeat:</label>
+    <label for="repeat">Times to Repeat:</label>
     <input type="number" id="repeat" name="repeat" min="1">
     <br>
-    <button onclick="startCountdown()">Start Countdown</button>
+    <button onclick="startCountdown()">Start Timer</button>
     <p id="timerOutput"></p>
     <p id="iterationsRemaining"></p>
 
@@ -93,7 +103,7 @@
                     await sleep(1000);
                     if (j === 1) {
                         timerSound.play();
-                        document.body.style.backgroundColor = '#ff5252'; // Change background color
+                        document.body.style.backgroundColor = '#8a0000'; // Change background color
                         await sleep(1000);
                         document.body.style.backgroundColor = originalBackgroundColor; // Reset background color
                     }
