@@ -67,14 +67,14 @@
     <input type="number" id="repeat" name="repeat" min="1">
     <br>
     <button onclick="startCountdown()">Start Countdown</button>
-    <p id="timerOutput">Time remaining: </p>
-    <p id="iterationsRemaining">Iterations remaining: </p>
+    <p id="timerOutput"></p>
+    <p id="iterationsRemaining"></p>
 
 
     <audio id="timerSound" src="Glass.mp3" preload="auto"></audio>
 
     <script>
-                function sleep(ms) {
+            function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
@@ -82,6 +82,9 @@
             const timerOutput = document.getElementById('timerOutput');
             const iterationsRemaining = document.getElementById('iterationsRemaining');
             const originalBackgroundColor = document.body.style.backgroundColor;
+
+            timerOutput.textContent = "";
+            iterationsRemaining.textContent = "";
 
             for (let i = 0; i < repeat; i++) {
                 iterationsRemaining.textContent = "Iterations remaining: " + (repeat - i);
@@ -97,8 +100,8 @@
                 }
                 console.log("Timer completed for iteration: " + (i + 1));
             }
-            timerOutput.textContent = "Time remaining: ";
-            iterationsRemaining.textContent = "Iterations remaining: ";
+            timerOutput.textContent = "";
+            iterationsRemaining.textContent = "";
         }
 
         function startCountdown() {
