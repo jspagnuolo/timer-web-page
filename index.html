@@ -15,18 +15,22 @@
     <br>
     <button onclick="startCountdown()">Start Countdown</button>
     <p id="timerOutput">Time remaining: </p>
+    <p id="iterationsRemaining">Iterations remaining: </p>
+
 
     <audio id="timerSound" src="Glass.aiff" preload="auto"></audio>
 
     <script>
-                function sleep(ms) {
+        function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         async function countdownTimer(time_sec, repeat, timerSound) {
             const timerOutput = document.getElementById('timerOutput');
+            const iterationsRemaining = document.getElementById('iterationsRemaining');
 
             for (let i = 0; i < repeat; i++) {
+                iterationsRemaining.textContent = "Iterations remaining: " + (repeat - i);
                 for (let j = time_sec; j > 0; j--) {
                     timerOutput.textContent = "Time remaining: " + j + " seconds";
                     await sleep(1000);
@@ -37,6 +41,7 @@
                 console.log("Timer completed for iteration: " + (i + 1));
             }
             timerOutput.textContent = "Time remaining: ";
+            iterationsRemaining.textContent = "Iterations remaining: ";
         }
 
         function startCountdown() {
