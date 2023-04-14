@@ -74,13 +74,14 @@
     <audio id="timerSound" src="Glass.mp3" preload="auto"></audio>
 
     <script>
-        function sleep(ms) {
+                function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         async function countdownTimer(time_sec, repeat, timerSound) {
             const timerOutput = document.getElementById('timerOutput');
             const iterationsRemaining = document.getElementById('iterationsRemaining');
+            const originalBackgroundColor = document.body.style.backgroundColor;
 
             for (let i = 0; i < repeat; i++) {
                 iterationsRemaining.textContent = "Iterations remaining: " + (repeat - i);
@@ -89,6 +90,9 @@
                     await sleep(1000);
                     if (j === 1) {
                         timerSound.play();
+                        document.body.style.backgroundColor = '#ff5252'; // Change background color
+                        await sleep(1000);
+                        document.body.style.backgroundColor = originalBackgroundColor; // Reset background color
                     }
                 }
                 console.log("Timer completed for iteration: " + (i + 1));
