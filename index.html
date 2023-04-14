@@ -125,7 +125,9 @@
             timerOutput.textContent = "";
             iterationsRemaining.textContent = "";
             releaseWakeLock();
+            stopPreventSleepAudio(); // Stop the preventSleepAudio after the last repetition
         }
+
 
 
         async function startCountdown() {
