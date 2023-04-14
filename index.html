@@ -92,8 +92,6 @@
 
 
     <audio id="timerSound" src="Glass.mp3" preload="auto"></audio>
-    <video id="preventSleepVideo" src="Silent.mp4" preload="auto" loop muted playsinline width="0" height="0" style="display:none;"></video>
-
 
     <script>
             function sleep(ms) {
@@ -125,7 +123,6 @@
             timerOutput.textContent = "";
             iterationsRemaining.textContent = "";
             releaseWakeLock();
-            stopPreventSleepVideo(); // Stop the preventSleepAudio after the last repetition
         }
 
 
@@ -142,7 +139,6 @@
             const timerSound = document.getElementById('timerSound');
 
             requestWakeLock();
-            startPreventSleepVideo();
             countdownTimer(time_sec, repeat, timerSound);
         }
 
@@ -168,19 +164,6 @@
                 wakeLock = null;
                 console.log('Wake Lock released.');
             }
-        }
-
-
-
-        function startPreventSleepVideo() {
-            const video = document.getElementById('preventSleepVideo');
-            video.play();
-        }
-
-        function stopPreventSleepVideo() {
-            const video = document.getElementById('preventSleepVideo');
-            video.pause();
-            video.currentTime = 0;
         }
 
 
