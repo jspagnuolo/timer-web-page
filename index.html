@@ -92,7 +92,7 @@
 
 
     <audio id="timerSound" src="Glass.mp3" preload="auto"></audio>
-    <audio id="preventSleepAudio" src="Silent.mp3" preload="auto" loop></audio>
+    <video id="preventSleepVideo" src="Silent.mp4" preload="auto" loop muted style="display:none;"></video>
 
 
     <script>
@@ -125,7 +125,7 @@
             timerOutput.textContent = "";
             iterationsRemaining.textContent = "";
             releaseWakeLock();
-            stopPreventSleepAudio(); // Stop the preventSleepAudio after the last repetition
+            stopPreventSleepVideo(); // Stop the preventSleepAudio after the last repetition
         }
 
 
@@ -142,7 +142,7 @@
             const timerSound = document.getElementById('timerSound');
 
             requestWakeLock();
-            startPreventSleepAudio();
+            startPreventSleepVideo();
             countdownTimer(time_sec, repeat, timerSound);
         }
 
@@ -172,15 +172,15 @@
 
 
 
-        function startPreventSleepAudio() {
-            const audio = document.getElementById('preventSleepAudio');
-            audio.play();
+        function startPreventSleepVideo() {
+            const video = document.getElementById('preventSleepVideo');
+            video.play();
         }
 
-        function stopPreventSleepAudio() {
-            const audio = document.getElementById('preventSleepAudio');
-            audio.pause();
-            audio.currentTime = 0;
+        function stopPreventSleepVideo() {
+            const video = document.getElementById('preventSleepVideo');
+            video.pause();
+            video.currentTime = 0;
         }
 
 
