@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <title>Training Timer</title>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-C9CL0FFMRN"></script>
@@ -92,10 +92,8 @@
 
 
     <audio id="timerSound" src="Glass.mp3" preload="auto"></audio>
-    <audio id="preventSleepAudio" loop preload="auto" style="display:none;">
-        <source src="Silent.mp3" type="audio/mpeg">
-    </audio>
-    
+    <audio id="preventSleepAudio" src="Silent.mp3" preload="auto" loop></audio>
+
 
     <script>
             function sleep(ms) {
@@ -130,7 +128,7 @@
         }
 
 
-        function startCountdown() {
+        async function startCountdown() {
             const time_sec = parseInt(document.getElementById('time_sec').value);
             const repeat = parseInt(document.getElementById('repeat').value);
 
@@ -140,15 +138,10 @@
             }
 
             const timerSound = document.getElementById('timerSound');
-            timerSound.play().then(() => {
-                timerSound.pause();
-                timerSound.currentTime = 0;
-                requestWakeLock();
-                countdownTimer(time_sec, repeat, timerSound);
-            }).catch((err) => {
-                console.error('Error playing sound:', err);
-                alert('Unable to play sound. Please check your browser settings.');
-            });
+
+            requestWakeLock();
+            startPreventSleepAudio();
+            countdownTimer(time_sec, repeat, timerSound);
         }
 
 
