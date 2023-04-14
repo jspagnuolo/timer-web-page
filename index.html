@@ -4,56 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown Timer</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-        input, button {
-            margin: 10px;
-        }
-    </style>
 </head>
 <body>
     <h1>Countdown Timer</h1>
-    <input type="number" id="time_sec" placeholder="Enter the time in seconds">
-    <input type="number" id="repeat" placeholder="Enter the number of times the timer should repeat">
-    <button onclick="startTimer()">Start Timer</button>
-    <div id="timer_output"></div>
+    <label for="time_sec">Enter the time in seconds:</label>
+    <input type="number" id="time_sec" name="time_sec" min="1">
+    <br>
+    <label for="repeat">Enter the number of times the timer should repeat:</label>
+    <input type="number" id="repeat" name="repeat" min="1">
+    <br>
+    <button onclick="startCountdown()">Start Countdown</button>
+    <p id="timerOutput">Time remaining: </p>
+
+    <audio id="timerSound" src="Glass.aiff" preload="auto"></audio>
 
     <script>
-        function countdownTimer(time_sec, repeat) {
-            let i = 0;
-            let j = time_sec;
-            
-            const timer = setInterval(function () {
-                document.getElementById('timer_output').innerHTML = "Time remaining: " + j + " seconds";
-
-                if (j === 1) {
-                    i++;
-                    if (i === repeat) {
-                        clearInterval(timer);
-                        document.getElementById('timer_output').innerHTML = "Timer completed for iteration: " + i;
-                    } else {
-                        j = time_sec + 1;
-                    }
-                    // You can add a sound here using the Audio API
-                }
-
-                j--;
-            }, 1000);
+                function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        function startTimer() {
+        async function countdownTimer(time_sec, repeat, timerSound) {
+            const timerOutput = document.getElementById('timerOutput');
+
+            for (let i = 0; i < repeat; i++) {
+                for (let j = time_sec; j > 0; j--) {
+                    timerOutput.textContent = "Time remaining: " + j + " seconds";
+                    await sleep(1000);
+                    if (j === 1) {
+                        timerSound.play();
+                    }
+                }
+                console.log("Timer completed for iteration: " + (i + 1));
+            }
+            timerOutput.textContent = "Time remaining: ";
+        }
+
+        function startCountdown() {
             const time_sec = parseInt(document.getElementById('time_sec').value);
             const repeat = parseInt(document.getElementById('repeat').value);
 
-            countdownTimer(time_sec, repeat);
+            if (isNaN(time_sec) || isNaN(repeat)) {
+                alert("Please enter valid numbers for time and repeats.");
+                return;
+            }
+
+            const timerSound = document.getElementById('timerSound');
+            timerSound.play().then(() => {
+                timerSound.pause();
+                timerSound.currentTime = 0;
+                countdownTimer(time_sec, repeat, timerSound);
+            }).catch((err) => {
+                console.error('Error playing sound:', err);
+                alert('Unable to play sound. Please check your browser settings.');
+            });
         }
+
     </script>
 </body>
 </html>
