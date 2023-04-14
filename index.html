@@ -92,6 +92,10 @@
 
 
     <audio id="timerSound" src="Glass.mp3" preload="auto"></audio>
+    <audio id="preventSleepAudio" loop preload="auto" style="display:none;">
+        <source src="Silent.mp3" type="audio/mpeg">
+    </audio>
+    
 
     <script>
             function sleep(ms) {
@@ -113,16 +117,18 @@
                     await sleep(1000);
                     if (j === 1) {
                         timerSound.play();
-                        document.body.style.backgroundColor = '#8a0000'; // Change background color
+                        document.body.style.backgroundColor = '#ff5252';
                         await sleep(1000);
-                        document.body.style.backgroundColor = originalBackgroundColor; // Reset background color
+                        document.body.style.backgroundColor = originalBackgroundColor;
                     }
                 }
                 console.log("Timer completed for iteration: " + (i + 1));
             }
             timerOutput.textContent = "";
             iterationsRemaining.textContent = "";
+            releaseWakeLock();
         }
+
 
         function startCountdown() {
             const time_sec = parseInt(document.getElementById('time_sec').value);
@@ -137,12 +143,51 @@
             timerSound.play().then(() => {
                 timerSound.pause();
                 timerSound.currentTime = 0;
+                requestWakeLock();
                 countdownTimer(time_sec, repeat, timerSound);
             }).catch((err) => {
                 console.error('Error playing sound:', err);
                 alert('Unable to play sound. Please check your browser settings.');
             });
         }
+
+
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock active.');
+                } catch (err) {
+                    console.error(`Error requesting wake lock: ${err.name}, ${err.message}`);
+                }
+            } else {
+                console.error('Wake Lock API not supported in this browser.');
+            }
+        }
+
+        async function releaseWakeLock() {
+            if (wakeLock !== null) {
+                await wakeLock.release();
+                wakeLock = null;
+                console.log('Wake Lock released.');
+            }
+        }
+
+
+
+        function startPreventSleepAudio() {
+            const audio = document.getElementById('preventSleepAudio');
+            audio.play();
+        }
+
+        function stopPreventSleepAudio() {
+            const audio = document.getElementById('preventSleepAudio');
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
 
     </script>
 </body>
